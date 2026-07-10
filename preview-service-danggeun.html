@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>이벤트리 — 당근 오렌지 (service-danggeun)</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+ --bg:#ffffff; --surf:#ffffff; --ink:#2b2d33; --mut:#8a9099; --line:#eceef1; --tint:#fff4ec;
+ --acc:#ff6f0f; --acc2:#ff8f3f; --accink:#ffffff;
+ --rad:24px; --shadow:0 2px 10px rgba(20,24,40,.05); --shadow-h:0 12px 34px rgba(20,24,40,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;overflow-x:hidden}
+body{font-family:'Pretendard',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{text-decoration:none;color:inherit}
+.inner{max-width:1280px;margin:0 auto;padding:0 40px}
+@media(max-width:700px){.inner{padding:0 18px}}
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+.nav .inner{display:flex;align-items:center;gap:20px;height:64px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px}
+.brand img{height:34px}
+.brand small{font-weight:600;color:var(--mut);font-size:12px}
+.navcats{display:flex;gap:6px;margin-left:14px}
+.navcats a{font-size:14px;font-weight:600;color:var(--mut);padding:8px 12px;border-radius:10px}
+.navcats a:hover{background:var(--tint);color:var(--ink)}
+.gbtn{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--acc);color:var(--accink);border:none;border-radius:12px;padding:10px 18px;font-weight:700;font-size:14px;cursor:pointer;transition:filter .15s}.gbtn:hover{filter:brightness(.95)}
+.gbtn svg{width:17px;height:17px}
+/* hero */
+.hero{text-align:center;padding:56px 0 20px}
+.hero h1{font-size:clamp(30px,4.4vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1.12}
+.hero h1 .hl{color:var(--acc)}
+.hero p{margin:16px auto 0;color:var(--mut);font-size:clamp(14px,1.4vw,17px);max-width:520px;font-weight:500}
+.stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.stat{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:13px 22px;min-width:140px;box-shadow:var(--shadow)}
+.stat .k{font-size:11.5px;color:var(--mut);font-weight:600}
+.stat .v{font-size:24px;font-weight:800;margin-top:2px}
+.stat.hot .v{color:var(--acc)}
+/* spotlight card */
+.sp{padding:28px 0 8px}
+.spwrap{display:flex;align-items:center;gap:18px}
+.spcard{position:relative;flex:1;border-radius:var(--rad);overflow:hidden;background:var(--surf);border:1px solid var(--line);box-shadow:var(--shadow-h);display:flex;align-items:center;gap:34px;padding:38px 42px;min-height:290px;transition:background .5s}
+.sp-badge{display:inline-flex;align-items:center;gap:7px;background:var(--tint);color:var(--acc);border:1px solid var(--line);font-weight:800;font-size:12.5px;padding:6px 13px;border-radius:999px}
+.sp-main{flex:1;min-width:0}
+.sp-main h2{font-size:clamp(24px,3.2vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:14px 0 10px}
+.sp-desc{color:var(--mut);font-size:15px;font-weight:500;max-width:520px;margin-bottom:16px}
+.sp-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.sp-chips span{background:var(--tint);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700}
+.sp-cta{display:inline-block;background:var(--acc);color:var(--accink);border-radius:12px;padding:13px 26px;font-weight:800;font-size:15px;box-shadow:var(--shadow);transition:transform .15s}.sp-cta:hover{transform:translateY(-2px)}
+.sp-art{flex:none;width:200px;height:200px;border-radius:20px;display:grid;place-items:center;position:relative;box-shadow:var(--shadow)}
+.sp-art svg{width:96px;height:96px}
+.sp-art .spcat{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.sparrow{width:46px;height:46px;flex:none;border:1px solid var(--line);border-radius:50%;background:var(--surf);box-shadow:var(--shadow);font-size:20px;cursor:pointer;color:var(--ink);display:grid;place-items:center;transition:transform .15s}.sparrow:hover{transform:scale(1.08)}
+.spbars{display:flex;gap:6px;margin:16px auto 0;max-width:520px}
+.spbar{flex:1;height:5px;border-radius:99px;background:var(--line);overflow:hidden}
+.spbar span{display:block;height:100%;width:0;background:var(--acc);border-radius:99px}
+/* category chips */
+.catbar{padding:34px 0 18px}
+.catbar .sechead{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.catbar h3{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.catbar .sub{color:var(--mut);font-size:13.5px;font-weight:500}
+.chips{display:flex;gap:9px;flex-wrap:wrap}
+.chip{background:var(--surf);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-weight:600;font-size:13.5px;cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--acc)}
+.chip.on{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-bottom:40px}
+@media(max-width:1150px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;cursor:pointer}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-h)}
+.card .thumb{height:120px;display:grid;place-items:center;position:relative}
+.card .thumb svg{width:52px;height:52px;opacity:.9}
+.card .badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:800;border-radius:999px;padding:3px 10px;background:#fff;color:var(--ink)}
+.card .badge.live{background:#12b981;color:#fff}.card .badge.soon{background:#f6a723;color:#3a2a00}.card .badge.ended{background:#e7ebf0;color:#7c88a3}
+.card .body{padding:14px 16px 0}
+.card .cat{font-size:11.5px;font-weight:800}
+.card h4{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:5px 0 6px;line-height:1.3}
+.card .desc{font-size:13px;color:var(--mut);font-weight:500;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .rew{margin:12px 16px 0;background:var(--tint);border-radius:11px;padding:9px 12px;display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700}
+.card .rew .via{margin-left:auto;font-size:10.5px;font-weight:800;color:var(--acc)}
+.card .foot{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:12px;color:var(--mut);font-weight:600}
+.card .dday{font-weight:800;color:var(--ink)}
+.card .join{margin:0 16px 16px;background:var(--acc);color:var(--accink);border-radius:11px;padding:11px;text-align:center;font-weight:800;font-size:14px;transition:filter .15s}.card .join:hover{filter:brightness(.96)}
+.card.ended{opacity:.62}.card.ended .join{background:var(--line);color:var(--mut)}
+/* checkin */
+.checkin-sec{padding:14px 0 40px}
+.checkin{background:var(--surf);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:20px 26px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.checkin .flame{width:50px;height:50px;flex:none;background:var(--acc);color:var(--accink);border-radius:14px;display:grid;place-items:center;font-size:24px}
+.checkin b{font-size:16px;font-weight:800}
+.checkin .ci-copy{flex:1;min-width:200px}
+.checkin .ci-copy span{display:block;color:var(--mut);font-size:13.5px;font-weight:500;margin-top:2px}
+.days{display:flex;gap:7px}
+.day{width:38px;height:44px;border:1px solid var(--line);border-radius:11px;display:grid;place-items:center;font-weight:800;font-size:13px;background:var(--bg)}
+.day.done{background:var(--acc);color:var(--accink);border-color:var(--acc)}.day.today{background:var(--tint);color:var(--acc);border-color:var(--acc)}
+.ci-cta{background:var(--acc);color:var(--accink);border:none;border-radius:12px;padding:12px 20px;font-weight:800;font-size:14px;cursor:pointer}
+footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--mut);font-size:13px;font-weight:600}
+
+/* real-photo override */
+.ethumb{background:#eef1f5!important}
+.ethumb .eico{display:none!important}.ethumb .enum{display:none!important}
+.erimg{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;opacity:1!important;filter:none!important;border-radius:0!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important}
+.ebadge{z-index:3}
+.coupon .stub{padding:0!important;overflow:hidden;border-right:0!important}
+.coupon .stub img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;filter:none!important}
+.coupon .stub::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.72));z-index:1}
+.coupon .stub .rname{position:absolute!important;left:12px;right:12px;bottom:30px;z-index:2;color:#fff!important;text-align:left}
+.coupon .stub .rvia{position:absolute!important;left:12px;right:12px;bottom:12px;z-index:2;color:#fff!important;opacity:.92}
+.coupon .stub .notch{z-index:4}
+</style></head><body>
+<div class="nav"><div class="inner">
+  <div class="brand"><img src="assets/logos/logo03.svg" alt="EVENTREE" style="mix-blend-mode:multiply"> <small>by Bridge34</small></div>
+  <div class="navcats"><a>이벤트</a><a>쿠폰</a><a>출석</a><a>토큰</a><a>게임</a></div>
+  <button class="gbtn"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.1 0 24 0 14.6 0 6.4 5.4 2.5 13.3l7.8 6.1C12.2 13.7 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.1 5.3-4.6 7l7.1 5.5c4.1-3.8 6.5-9.4 6.5-16z"/><path fill="#FBBC05" d="M10.3 28.6c-.5-1.4-.7-2.9-.7-4.6s.3-3.2.7-4.6l-7.8-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15-5.5l-7.1-5.5c-2 1.3-4.6 2.1-7.9 2.1-6.4 0-11.8-4.2-13.7-9.9l-7.8 6.1C6.4 42.6 14.6 48 24 48z"/></svg>Google로 시작</button>
+</div></div>
+
+<div class="hero"><div class="inner">
+  <h1>검증된 이벤트, <span class="hl">이벤트리</span> 한 곳에서.</h1>
+  <p>쿠폰·출석·에어드랍·현장게임까지 — 참여는 원클릭, 리워드는 안전하게.</p>
+  <div class="stats">
+    <div class="stat hot"><div class="k">진행 중 리워드</div><div class="v" id="tRew">₩0</div></div>
+    <div class="stat"><div class="k">진행 중 이벤트</div><div class="v" id="tLive">0</div></div>
+    <div class="stat"><div class="k">누적 참여</div><div class="v" id="tPpl">0</div></div>
+  </div>
+</div></div>
+
+<div class="sp"><div class="inner spwrap">
+  <button class="sparrow" id="prev">‹</button>
+  <div class="spcard">
+    <div class="sp-main">
+      <span class="sp-badge">🔥 지금 진행 중 · <span id="spCount">01/05</span></span>
+      <h2 id="spTitle"></h2><p class="sp-desc" id="spDesc"></p>
+      <div class="sp-chips" id="spChips"></div>
+      <a class="sp-cta" id="spCta" href="#" target="_blank">참여하기 →</a>
+    </div>
+    <div class="sp-art" id="spArt"></div>
+  </div>
+  <button class="sparrow" id="next">›</button>
+</div><div class="inner"><div class="spbars" id="spBars"></div></div></div>
+
+<div class="catbar"><div class="inner">
+  <div class="sechead"><h3>전체 이벤트</h3><span class="sub">지금 참여할 수 있는 모든 이벤트</span></div>
+  <div class="chips" id="chips"></div>
+</div></div>
+<div class="inner"><div class="grid" id="grid"></div></div>
+
+<div class="checkin-sec"><div class="inner"><div class="checkin">
+  <span class="flame">🔥</span>
+  <div class="ci-copy"><b>7일 연속 출석 챌린지</b><span>매일 출석하고 7일 채우면 스타벅스 기프티콘! · 쿠포니 번호인증 후 지급</span></div>
+  <div class="days" id="days"></div>
+  <button class="ci-cta">오늘 출석하기</button>
+</div></div></div>
+
+<footer>Powered by Bridge34</footer>
+<script src="data.js"></script><script>
+const RVAL={'스타벅스 기프티콘':4500,'아메리카노 기프티콘':4500,'웰컴 기프트':10000,'POT 토큰':8000,'현장 경품':30000,'버거세트 1+1':9000,'주간 경품':20000};
+const TYPE={checkin:{c:'#ff5a6a',ico:'flame'},coupon:{c:'#f6a723',ico:'ticket'},event:{c:'#12b981',ico:'cal'},pot:{c:'#8b5cf6',ico:'coin'},game:{c:'#3b82f6',ico:'game'}};
+const ICONS={flame:'<path d="M12 2c1 3-1 4-1 6 0 1 1 2 2 2s1-1 1-2c2 2 3 4 3 7a5 5 0 01-10 0c0-3 2-5 3-7 1-2 2-3 2-5z"/>',ticket:'<path d="M3 8a2 2 0 012-2h14a2 2 0 012 2 2 2 0 000 4 2 2 0 010 4 2 2 0 01-2 2H5a2 2 0 01-2-2 2 2 0 010-4 2 2 0 000-4z"/>',cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 9h18M8 3v4M16 3v4M8.5 15l2.5 2.5L16 12"/>',coin:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.2 1.1-2 2.5-2s2.5.8 2.5 2-1.1 2-2.5 2-2.5.8-2.5 2 1.1 2 2.5 2 2.5-.8 2.5-2"/>',game:'<rect x="2" y="7" width="20" height="11" rx="5.5"/><path d="M7 11v3M5.5 12.5h3M15.5 11.5h.01M18 13.5h.01"/>'};
+function ico(n,stroke){return `<svg viewBox="0 0 24 24" fill="${n==='flame'?stroke:'none'}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">${ICONS[n]}</svg>`}
+const live=EVENTS.filter(e=>e.status==='live');
+let totRew=live.reduce((s,e)=>s+(RVAL[e.reward]||0),0);
+let ppl=EVENTS.reduce((s,e)=>s+parseInt(((e.meta.match(/[\d,]+/)||['0'])[0]).replace(/,/g,''))||0,0);
+function anim(el,to,fmt){let t=0,st=to/40;const i=setInterval(()=>{t+=st;if(t>=to){t=to;clearInterval(i)}el.textContent=fmt(Math.floor(t))},18)}
+anim(tRew,totRew,v=>'₩'+v.toLocaleString());anim(tLive,live.length,v=>v+'개');anim(tPpl,ppl,v=>v.toLocaleString()+'명');
+for(let i=1;i<=7;i++){const d=document.createElement('div');d.className='day'+(i<5?' done':i===5?' today':'');d.textContent=i<5?'✓':i;days.appendChild(d)}
+// spotlight
+const spcard=document.querySelector('.spcard');const N=live.length;let idx=0,pt=null;
+const spBars=document.getElementById('spBars');
+live.forEach(()=>{const b=document.createElement('div');b.className='spbar';b.innerHTML='<span></span>';spBars.appendChild(b)});
+function spRender(){
+  const e=live[idx],t=TYPE[e.type]||TYPE.coupon;
+  spcard.style.background=t.c+'14';
+  document.getElementById('spCount').textContent=String(idx+1).padStart(2,'0')+'/'+String(N).padStart(2,'0');
+  document.getElementById('spTitle').textContent=e.title;
+  document.getElementById('spDesc').textContent=e.desc;
+  document.getElementById('spChips').innerHTML=`<span>🎁 ${e.reward}</span><span>${e.reward_via} 지급</span><span>${e.dday}</span><span>${e.meta}</span>`;
+  document.getElementById('spCta').href=e.handoff;
+  const art=document.getElementById('spArt');art.style.background=t.c;art.innerHTML=ico(t.ico,'#fff')+`<div class="spcat">${e.emoji} ${e.cat}</div>`;
+  [...spBars.children].forEach((b,i)=>{const sp=b.firstElementChild;sp.style.transition='none';sp.style.width=(i<idx?'100%':'0')});
+  const cur=spBars.children[idx].firstElementChild;requestAnimationFrame(()=>{cur.style.transition='width 2.2s linear';cur.style.width='100%'});
+}
+function go(i){idx=(i%N+N)%N;spRender();restart()}
+function nextS(){go(idx+1)}function restart(){clearInterval(pt);pt=setInterval(nextS,2200)}
+spRender();pt=setInterval(nextS,2200);
+document.getElementById('next').onclick=()=>go(idx+1);document.getElementById('prev').onclick=()=>go(idx-1);
+spcard.addEventListener('mouseenter',()=>clearInterval(pt));spcard.addEventListener('mouseleave',restart);
+// grid
+const grid=document.getElementById('grid'),chipEl=document.getElementById('chips');
+const cats=['전체',...new Set(EVENTS.map(e=>e.cat))];let ac='전체';
+cats.forEach(c=>{const b=document.createElement('button');b.className='chip'+(c==='전체'?' on':'');b.textContent=c;b.onclick=()=>{ac=c;[...chipEl.children].forEach(x=>x.classList.toggle('on',x.textContent===c));render()};chipEl.appendChild(b)});
+function render(){grid.innerHTML='';EVENTS.filter(e=>ac==='전체'||e.cat===ac).forEach(e=>{
+  const t=TYPE[e.type]||TYPE.coupon,st=e.status,lb=st==='live'?'LIVE':st==='soon'?'SOON':'종료';
+  const c=document.createElement('div');c.className='card'+(st==='ended'?' ended':'');
+  c.innerHTML=`<div class="thumb" style="background:${t.c}22">${ico(t.ico,t.c)}<span class="badge ${st}">${lb}</span></div>
+   <div class="body"><div class="cat" style="color:${t.c}">${e.emoji} ${e.cat}</div><h4>${e.title}</h4><div class="desc">${e.desc}</div></div>
+   <div class="rew">🎁 ${e.reward}<span class="via">${e.reward_via} 지급</span></div>
+   <div class="foot"><span class="dday">${e.dday}</span><span>${e.meta}</span></div>
+   <div class="join">${st==='ended'?'종료된 이벤트':'참여하기 →'}</div>`;
+  grid.appendChild(c)})}
+render();
+</script></body></html>

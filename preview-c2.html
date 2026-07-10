@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이벤트리 — C2 (헤더제거·타이트팬)</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--ink:#101014;--ink2:#3b3b45;--mut:#8a8a95;--bg:#ecebe4;--bg2:#e2e1d8;--tint:#0f0f14;
+--lime:#c6f24a;--mag:#ff2e88;--blue:#3b5bff;--amber:#ffb020;--emerald:#00d68f;
+--sh:7px 7px 0 var(--ink);--sh-lg:10px 10px 0 var(--ink);--sh-sm:4px 4px 0 var(--ink);}
+*{box-sizing:border-box;margin:0;padding:0}html,body{width:100%;overflow-x:hidden}
+body{font-family:'Pretendard',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.45}
+a{text-decoration:none;color:inherit}
+.sec{width:100%}.inner{max-width:1560px;margin:0 auto;padding:0 44px}
+@media(max-width:700px){.inner{padding:0 18px}}
+.nav{border-bottom:3px solid var(--ink);background:var(--lime);position:sticky;top:0;z-index:50}
+.nav .inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:900;font-size:22px;letter-spacing:-.04em;text-transform:uppercase}
+.brand .leaf{width:34px;height:34px;background:var(--ink);border:3px solid var(--ink);border-radius:8px;display:grid;place-items:center;transform:rotate(-6deg)}
+.brand .leaf svg path{fill:var(--lime)!important;stroke:var(--lime)!important}
+.brand small{font-weight:800;color:var(--ink);font-size:11px;text-transform:none;opacity:.6}
+.gbtn{display:flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border:3px solid var(--ink);border-radius:0;padding:10px 18px;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:-.01em;cursor:pointer;box-shadow:var(--sh-sm);transition:transform .1s}.gbtn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.hero{position:relative;text-align:center;padding:80px 0 66px;background:var(--tint);color:#fff;overflow:hidden;border-bottom:3px solid var(--ink)}
+.hero .tree-bg{position:absolute;inset:0;display:grid;place-items:center;opacity:.10;pointer-events:none;filter:invert(1)}.hero .tree-bg img{width:min(720px,90%)}
+.hero .kick{display:inline-flex;align-items:center;gap:7px;border:3px solid var(--lime);border-radius:0;padding:7px 16px;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.06em;background:transparent;color:var(--lime);position:relative;transform:rotate(-1.5deg)}
+.hero h1{position:relative;font-size:clamp(44px,8vw,104px);font-weight:900;letter-spacing:-.05em;line-height:.94;margin:24px 0 0;text-transform:uppercase}
+.hero h1 .hl{color:var(--lime);font-style:italic}
+.hero p{position:relative;margin:24px auto 0;font-size:clamp(15px,1.6vw,19px);color:#c7c7d2;max-width:560px;font-weight:600}
+.hero .cta{position:relative;display:inline-flex;gap:14px;margin-top:34px;flex-wrap:wrap;justify-content:center}
+.btn-p{border:3px solid var(--ink);background:var(--lime);color:var(--ink);font-weight:900;font-size:16px;text-transform:uppercase;letter-spacing:-.01em;padding:15px 28px;border-radius:0;box-shadow:var(--sh);cursor:pointer;transition:transform .1s}.btn-p:hover{transform:translate(-3px,-3px);box-shadow:var(--sh-lg)}
+.btn-g{border:3px solid #fff;background:transparent;color:#fff;font-weight:900;font-size:16px;text-transform:uppercase;padding:15px 24px;border-radius:0;cursor:pointer;display:inline-flex;gap:9px;align-items:center;transition:transform .1s}.btn-g:hover{transform:translate(-3px,-3px)}
+.totals{position:relative;display:flex;gap:0;justify-content:center;flex-wrap:wrap;margin-top:46px}
+.tot{border:3px solid var(--ink);border-right-width:0;padding:16px 30px;background:#fff;color:var(--ink);min-width:170px}
+.tot:last-child{border-right-width:3px}
+.tot:nth-child(1){background:var(--mag);color:#fff}.tot:nth-child(3){background:var(--blue);color:#fff}
+.tot .k{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;opacity:.8}.tot .v{font-size:32px;font-weight:900;letter-spacing:-.03em;margin-top:2px}
+.tot.accent .v{color:inherit}
+.deckband{background:var(--mag);border-bottom:3px solid var(--ink);padding:70px 0}
+.deckhead{text-align:center;margin-bottom:38px;color:#fff}.deckhead h2{font-size:clamp(30px,4vw,52px);font-weight:900;letter-spacing:-.04em;text-transform:uppercase}.deckhead .sub{color:#fff;font-weight:800;margin-top:6px;text-transform:uppercase;font-size:13px;letter-spacing:.04em;opacity:.85}
+.deckwrap{display:flex;align-items:center;justify-content:center;gap:24px}
+.deck{position:relative;width:min(640px,86vw);height:340px}
+.dcard{position:absolute;inset:0;border:3px solid var(--ink);border-radius:0;background:#fff;box-shadow:var(--sh-lg);padding:30px 34px;display:flex;gap:26px;align-items:center;transition:transform .45s cubic-bezier(.2,.9,.3,1.15),opacity .35s;cursor:grab;transform-origin:center bottom}
+.dcard .art{width:130px;height:130px;flex:none;border:3px solid var(--ink);border-radius:0;display:grid;place-items:center;box-shadow:var(--sh-sm)}.dcard .art svg{width:64px;height:64px}
+.dcard .dc-body{flex:1;text-align:left;min-width:0}
+.dcard .dc-cat{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+.dcard h3{font-size:clamp(22px,2.6vw,32px);font-weight:900;letter-spacing:-.03em;margin:6px 0 8px;line-height:1.05;text-transform:uppercase}
+.dcard .dc-desc{font-size:14.5px;color:var(--ink2);font-weight:600;line-height:1.5}
+.dcard .dc-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.dc-chip{border:2.5px solid var(--ink);border-radius:0;padding:4px 11px;font-size:12px;font-weight:900;background:#fff;text-transform:uppercase}.dc-chip.rew{background:var(--lime)}
+.dcard .dc-join{margin-top:18px;display:inline-block;border:3px solid var(--ink);border-radius:0;padding:11px 22px;font-weight:900;font-size:15px;text-transform:uppercase;color:var(--ink)!important;box-shadow:var(--sh-sm);cursor:pointer;transition:transform .1s;background:var(--lime)!important}.dcard .dc-join:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.arrow{width:56px;height:56px;flex:none;border:3px solid var(--ink);border-radius:0;background:#fff;box-shadow:var(--sh-sm);font-size:24px;font-weight:900;cursor:pointer;display:grid;place-items:center;transition:transform .1s}.arrow:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.dots{display:flex;gap:8px;justify-content:center;margin-top:26px}.dot{width:12px;height:12px;border:2.5px solid var(--ink);border-radius:0;background:#fff;cursor:pointer;transition:background .2s}.dot.on{background:var(--ink)}
+.checkin-sec{padding:56px 0}
+.checkin{border:3px solid var(--ink);border-radius:0;background:var(--amber);box-shadow:var(--sh-lg);padding:24px 30px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.checkin .flame{width:56px;height:56px;flex:none;background:var(--ink);border:3px solid var(--ink);border-radius:0;display:grid;place-items:center}
+.checkin .ci-copy{flex:1;min-width:200px}.checkin .ci-copy b{font-size:19px;font-weight:900;text-transform:uppercase;letter-spacing:-.02em}.checkin .ci-copy span{display:block;color:var(--ink);font-size:14px;font-weight:700;margin-top:2px}
+.days{display:flex;gap:8px}.day{width:42px;height:48px;border:3px solid var(--ink);border-radius:0;display:grid;place-items:center;font-weight:900;font-size:14px;background:#fff}.day.done{background:var(--ink);color:var(--lime)}.day.today{background:var(--mag);color:#fff}
+.ci-cta{border:3px solid var(--ink);background:var(--ink);color:var(--lime);font-weight:900;font-size:15px;text-transform:uppercase;padding:13px 22px;border-radius:0;box-shadow:var(--sh-sm);cursor:pointer;transition:transform .1s}.ci-cta:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.cat-sec{padding:24px 0 84px}.sechead{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}.sechead h2{font-size:38px;font-weight:900;letter-spacing:-.04em;text-transform:uppercase}.sechead .sub{color:var(--mut);font-weight:800;font-size:13px;text-transform:uppercase}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}.chip{border:3px solid var(--ink);background:#fff;border-radius:0;padding:9px 17px;font-weight:900;font-size:13px;text-transform:uppercase;cursor:pointer;transition:transform .1s}.chip:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}.chip.on{background:var(--ink);color:var(--lime)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1200px){.grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:860px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{border:3px solid var(--ink);border-radius:0;background:#fff;box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column;transition:transform .12s,box-shadow .12s}.card:hover{transform:translate(-3px,-3px);box-shadow:var(--sh-lg)}
+.card .top{padding:16px 18px 0;display:flex;align-items:center;justify-content:space-between}
+.icobox{width:46px;height:46px;border:3px solid var(--ink);border-radius:0;display:grid;place-items:center;box-shadow:var(--sh-sm)}
+.badge{font-size:11px;font-weight:900;text-transform:uppercase;border:2.5px solid var(--ink);border-radius:0;padding:3px 9px;background:#fff}.badge.live{background:var(--emerald);color:var(--ink)}.badge.soon{background:var(--amber);color:var(--ink)}.badge.ended{background:#d8d8d0;color:var(--mut)}
+.card .body{padding:12px 18px 0;flex:1}.card .cat{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.03em}.card h3{font-size:18px;font-weight:900;letter-spacing:-.03em;margin:5px 0 7px;line-height:1.15;text-transform:uppercase}.card .desc{font-size:13px;color:var(--ink2);font-weight:600;line-height:1.5}
+.reward{margin:14px 18px 0;border:2.5px solid var(--ink);border-radius:0;padding:10px 13px;background:var(--lime);display:flex;align-items:center;gap:9px}.reward .rk{font-size:10px;font-weight:900;text-transform:uppercase}.reward .rv{font-size:14px;font-weight:900}.reward .via{margin-left:auto;font-size:10px;font-weight:900;border:2.5px solid var(--ink);border-radius:0;padding:2px 7px;background:#fff;text-transform:uppercase}
+.meta{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;font-size:12px;font-weight:800;color:var(--mut);text-transform:uppercase}.dday{color:var(--ink);border:2.5px solid var(--ink);border-radius:0;padding:2px 9px;font-weight:900}
+.join{margin:0 18px 18px;border:3px solid var(--ink);border-radius:0;padding:12px;text-align:center;font-weight:900;font-size:15px;text-transform:uppercase;cursor:pointer;box-shadow:var(--sh-sm);transition:transform .12s;background:var(--ink)!important;color:var(--lime)!important}.join:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.card.ended{opacity:.6}.card.ended .join{background:#d8d8d0!important;color:var(--mut)!important;cursor:not-allowed;box-shadow:none}
+footer{border-top:3px solid var(--ink);padding:34px 0;text-align:center;color:var(--ink);font-size:12px;font-weight:800;text-transform:uppercase;background:var(--lime)}
+
+.deckwrap{gap:10px}.deck{overflow:visible}.dcard{transform-origin:50% 150%;will-change:transform}
+.grid{perspective:1000px}.card{transform-style:preserve-3d}
+
+/* real-photo override */
+.ethumb{background:#eef1f5!important}
+.ethumb .eico{display:none!important}.ethumb .enum{display:none!important}
+.erimg{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;opacity:1!important;filter:none!important;border-radius:0!important;right:auto!important;bottom:auto!important;top:auto!important;left:auto!important}
+.ebadge{z-index:3}
+.coupon .stub{padding:0!important;overflow:hidden;border-right:0!important}
+.coupon .stub img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;filter:none!important}
+.coupon .stub::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.72));z-index:1}
+.coupon .stub .rname{position:absolute!important;left:12px;right:12px;bottom:30px;z-index:2;color:#fff!important;text-align:left}
+.coupon .stub .rvia{position:absolute!important;left:12px;right:12px;bottom:12px;z-index:2;color:#fff!important;opacity:.92}
+.coupon .stub .notch{z-index:4}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="sec nav"><div class="inner">
+  <div class="brand">
+    <img src="assets/logos/logo03.svg" alt="EVENTREE" style="height:40px;mix-blend-mode:multiply"> <small>by Bridge34</small>
+  </div>
+  <button class="gbtn">
+    <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.1 0 24 0 14.6 0 6.4 5.4 2.5 13.3l7.8 6.1C12.2 13.7 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.1 5.3-4.6 7l7.1 5.5c4.1-3.8 6.5-9.4 6.5-16z"/><path fill="#FBBC05" d="M10.3 28.6c-.5-1.4-.7-2.9-.7-4.6s.3-3.2.7-4.6l-7.8-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15-5.5l-7.1-5.5c-2 1.3-4.6 2.1-7.9 2.1-6.4 0-11.8-4.2-13.7-9.9l-7.8 6.1C6.4 42.6 14.6 48 24 48z"/></svg>
+    Google로 시작
+  </button>
+</div></div>
+
+<!-- HERO centered -->
+<div class="sec hero"><div class="inner">
+  <div class="tree-bg"><img src="assets/trees2/t3.svg" alt=""></div>
+  <h1>검증된 이벤트,<br><span class="hl">이벤트리</span> 한 곳에서.</h1>
+  <p>쿠폰·출석·에어드랍·현장게임까지 — 흩어진 이벤트를 한 나무 아래 모았어요. 참여는 원클릭, 리워드는 안전하게.</p>
+  <div class="cta">
+    <button class="btn-p">지금 이벤트 보기 ↓</button>
+    <button class="btn-g">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.1 0 24 0 14.6 0 6.4 5.4 2.5 13.3l7.8 6.1C12.2 13.7 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.1 5.3-4.6 7l7.1 5.5c4.1-3.8 6.5-9.4 6.5-16z"/><path fill="#FBBC05" d="M10.3 28.6c-.5-1.4-.7-2.9-.7-4.6s.3-3.2.7-4.6l-7.8-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.7l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15-5.5l-7.1-5.5c-2 1.3-4.6 2.1-7.9 2.1-6.4 0-11.8-4.2-13.7-9.9l-7.8 6.1C6.4 42.6 14.6 48 24 48z"/></svg>
+      Google로 시작
+    </button>
+  </div>
+  <div class="totals">
+    <div class="tot accent"><div class="k">진행 중 리워드 총액</div><div class="v" id="tRew">₩0</div></div>
+    <div class="tot"><div class="k">진행 중 이벤트</div><div class="v" id="tLive">0</div></div>
+    <div class="tot"><div class="k">누적 참여</div><div class="v" id="tPpl">0</div></div>
+  </div>
+</div></div>
+
+<!-- DECK CAROUSEL -->
+<div class="sec deckband"><div class="inner">
+  <div class="deckwrap">
+    <button class="arrow" id="prev">‹</button>
+    <div class="deck" id="deck"></div>
+    <button class="arrow" id="next">›</button>
+  </div>
+  <div class="dots" id="dots"></div>
+</div></div>
+
+<!-- CHECK-IN -->
+<div class="sec checkin-sec"><div class="inner">
+  <div class="checkin">
+    <span class="flame"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12 2c1 3-1 4-1 6 0 1 1 2 2 2s1-1 1-2c2 2 3 4 3 7a5 5 0 01-10 0c0-3 2-5 3-7 1-2 2-3 2-5z" stroke="#17223b" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+    <div class="ci-copy"><b>🔥 7일 연속 출석 챌린지</b><span>매일 출석하고 7일 채우면 스타벅스 기프티콘! · 쿠포니 번호인증 후 지급</span></div>
+    <div class="days" id="days"></div>
+    <button class="ci-cta">오늘 출석하기</button>
+  </div>
+</div></div>
+
+<!-- CATALOG GRID -->
+<div class="sec cat-sec"><div class="inner">
+  <div class="sechead"><h2>전체 이벤트</h2><span class="sub">지금 참여할 수 있는 모든 이벤트</span></div>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+</div></div>
+
+<footer>Powered by Bridge34</footer>
+
+<script src="data.js"></script>
+<script>
+const RVAL={'스타벅스 기프티콘':4500,'아메리카노 기프티콘':4500,'웰컴 기프트':10000,'POT 토큰':8000,'현장 경품':30000,'버거세트 1+1':9000,'주간 경품':20000};
+const TYPE={checkin:{c:'#ff2e88',ico:'flame'},coupon:{c:'#ffb020',ico:'ticket'},event:{c:'#00d68f',ico:'cal'},pot:{c:'#3b5bff',ico:'coin'},game:{c:'#c6f24a',ico:'game'}};
+const ICONS={
+  flame:'<path d="M12 2c1 3-1 4-1 6 0 1 1 2 2 2s1-1 1-2c2 2 3 4 3 7a5 5 0 01-10 0c0-3 2-5 3-7 1-2 2-3 2-5z"/>',
+  ticket:'<path d="M3 8a2 2 0 012-2h14a2 2 0 012 2 2 2 0 000 4 2 2 0 010 4 2 2 0 01-2 2H5a2 2 0 01-2-2 2 2 0 010-4 2 2 0 000-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 9h18M8 3v4M16 3v4M8.5 15l2.5 2.5L16 12"/>',
+  coin:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.2 1.1-2 2.5-2s2.5.8 2.5 2-1.1 2-2.5 2-2.5.8-2.5 2 1.1 2 2.5 2 2.5-.8 2.5-2"/>',
+  game:'<rect x="2" y="7" width="20" height="11" rx="5.5"/><path d="M7 11v3M5.5 12.5h3M15.5 11.5h.01M18 13.5h.01"/>'};
+function ico(n){return `<svg viewBox="0 0 24 24" fill="${n==='flame'?'#fff':'none'}" stroke="#101014" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">${ICONS[n]}</svg>`}
+const live=EVENTS.filter(e=>e.status==='live');
+let totRew=live.reduce((s,e)=>s+(RVAL[e.reward]||0),0);
+let ppl=EVENTS.reduce((s,e)=>s+parseInt(((e.meta.match(/[\d,]+/)||['0'])[0]).replace(/,/g,''))||0,0);
+function anim(el,to,fmt){let t=0,st=to/40;const i=setInterval(()=>{t+=st;if(t>=to){t=to;clearInterval(i)}el.textContent=fmt(Math.floor(t))},18)}
+anim(tRew,totRew,v=>'₩'+v.toLocaleString());anim(tLive,live.length,v=>v+'개');anim(tPpl,ppl,v=>v.toLocaleString()+'명');
+for(let i=1;i<=7;i++){const d=document.createElement('div');d.className='day'+(i<5?' done':i===5?' today':'');d.textContent=i<5?'✓':i;days.appendChild(d)}
+/* FAN CAROUSEL auto */
+const deck=document.getElementById('deck'),dots=document.getElementById('dots');
+const n=live.length;let active=0,timer=null;
+live.forEach((e,i)=>{
+  const t=TYPE[e.type]||TYPE.coupon;
+  const card=document.createElement('div');card.className='dcard';
+  card.innerHTML=`<div class="art" style="background:${t.c}22">${ico(t.ico)}</div>
+    <div class="dc-body"><div class="dc-cat" style="color:${t.c}">${e.emoji} ${e.cat}</div><h3>${e.title}</h3>
+    <div class="dc-desc">${e.desc}</div>
+    <div class="dc-chips"><span class="dc-chip rew">🎁 ${e.reward}</span><span class="dc-chip">${e.reward_via} 지급</span><span class="dc-chip">${e.dday}</span><span class="dc-chip">${e.meta}</span></div>
+    <a class="dc-join" style="background:${t.c}" href="${e.handoff}" target="_blank">참여하기 →</a></div>`;
+  card.onclick=()=>{active=i;layout();restart()};
+  deck.appendChild(card);
+  const dot=document.createElement('div');dot.className='dot';dot.onclick=()=>{active=i;layout();restart()};dots.appendChild(dot);
+});
+function layout(){
+  [...deck.children].forEach((el,i)=>{
+    let off=i-active; if(off>n/2)off-=n; if(off<-n/2)off+=n; const a=Math.abs(off);
+    el.style.transform=`translateX(${off*92}px) translateY(${a*16}px) rotate(${off*9}deg) scale(${1-a*0.06})`;
+    el.style.zIndex=100-a; el.style.opacity=a>3?0:1; el.style.pointerEvents=off===0?'auto':'none';
+  });
+  [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===active));
+}
+function nextC(){active=(active+1)%n;layout()}
+function prevC(){active=(active-1+n)%n;layout()}
+function start(){timer=setInterval(nextC,3000)} function stop(){clearInterval(timer)} function restart(){stop();start()}
+layout();start();
+document.getElementById('next').onclick=()=>{nextC();restart()};
+document.getElementById('prev').onclick=()=>{prevC();restart()};
+const dw=document.querySelector('.deckwrap');dw.addEventListener('mouseenter',stop);dw.addEventListener('mouseleave',start);
+/* GRID motion tiles */
+const grid=document.getElementById('grid'),chipEl=document.getElementById('chips');
+const cats=['전체',...new Set(EVENTS.map(e=>e.cat))];let activeCat='전체';
+cats.forEach(c=>{const b=document.createElement('button');b.className='chip'+(c==='전체'?' on':'');b.textContent=c;b.onclick=()=>{activeCat=c;[...chipEl.children].forEach(x=>x.classList.toggle('on',x.textContent===c));render()};chipEl.appendChild(b)});
+function render(){
+  grid.innerHTML='';
+  EVENTS.filter(e=>activeCat==='전체'||e.cat===activeCat).forEach(e=>{
+    const t=TYPE[e.type]||TYPE.coupon,st=e.status,lb=st==='live'?'LIVE':st==='soon'?'SOON':'종료';
+    const c=document.createElement('div');c.className='card'+(st==='ended'?' ended':'');
+    c.innerHTML=`<div class="top"><span class="icobox" style="background:${t.c}22"><span style="width:24px;height:24px;display:block">${ico(t.ico)}</span></span><span class="badge ${st}">${lb}</span></div>
+      <div class="body"><div class="cat" style="color:${t.c}">${e.emoji} ${e.cat}</div><h3>${e.title}</h3><div class="desc">${e.desc}</div></div>
+      <div class="reward"><span class="rk">리워드</span><span class="rv">${e.reward}</span><span class="via">${e.reward_via} 지급</span></div>
+      <div class="meta"><span class="dday">${e.dday}</span><span>${e.meta}</span></div>
+      <div class="join" style="background:${st==='ended'?'':t.c};color:${st==='ended'?'':'#101014'}">${st==='ended'?'종료된 이벤트':'참여하기 →'}</div>`;
+    c.addEventListener('pointermove',ev=>{const r=c.getBoundingClientRect();const px=(ev.clientX-r.left)/r.width-.5,py=(ev.clientY-r.top)/r.height-.5;c.style.transform=`perspective(800px) rotateY(${px*9}deg) rotateX(${-py*9}deg) translateZ(8px)`});
+    c.addEventListener('pointerleave',()=>{c.style.transform=''});
+    grid.appendChild(c)
+  })
+}
+render();
+</script>
+</body>
+</html>
